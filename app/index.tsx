@@ -1,18 +1,18 @@
-import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  RefreshControl,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+  RefreshControl,
+  Pressable,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { TaskCard } from '../components/TaskCard';
+import { router } from 'expo-router';
 import { AppDispatch, RootState } from '../lib/store';
-import { deleteTask, fetchTasks } from '../lib/store/slices/tasksSlice';
+import { fetchTasks, updateTask } from '../lib/store/slices/tasksSlice';
+import { TaskCard } from '../components/TaskCard';
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,46 +22,35 @@ export default function HomeScreen() {
     dispatch(fetchTasks());
   }, []);
 
-  const handleDelete = (id: string) => {
-    console.log('🗑️ PASO 1: handleDelete llamado con ID:', id);
-    
-    Alert.alert(
-      'Eliminar Tarea',
-      '¿Estás seguro de que deseas eliminar esta tarea?',
-      [
-        { 
-          text: 'Cancelar', 
-          style: 'cancel',
-          onPress: () => console.log('❌ Eliminación cancelada')
-        },
-        {
-          text: 'Eliminar',
-          style: 'destructive',
-          onPress: async () => {
-            console.log('🗑️ PASO 2: Confirmación aceptada');
-            try {
-              console.log('🗑️ PASO 3: Despachando deleteTask...');
-              await dispatch(deleteTask(id)).unwrap();
-              console.log('✅ PASO 4: Tarea eliminada exitosamente');
-              Alert.alert('✅ Éxito', 'Tarea eliminada correctamente');
-            } catch (error: any) {
-              console.error('❌ PASO 4: Error al eliminar:', error);
-              Alert.alert('❌ Error', 'No se pudo eliminar la tarea');
-            }
-          },
-        },
-      ]
-    );
+  const handleToggleComplete = async (id: string, completed: boolean) => {
+    try {
+      const task = tasks.find(t => t.id === id);
+      if (task) {
+        await dispatch(updateTask({ 
+          id, 
+          data: { 
+            title: task.title,
+            description: task.description,
+            completed: !completed 
+          } 
+        })).unwrap();
+      }
+    } catch (error) {
+      console.error('Error al actualizar tarea:', error);
+    }
   };
-  
+
   const handleRefresh = () => {
     dispatch(fetchTasks());
   };
 
+  const completedCount = tasks.filter(t => t.completed).length;
+  const totalCount = tasks.length;
+
   if (loading && tasks.length === 0) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
-        <ActivityIndicator size="large" color="#3B82F6" />
+        <ActivityIndicator size="large" color="#2563EB" />
         <Text className="mt-4 text-gray-600">Cargando tareas...</Text>
       </View>
     );
@@ -69,21 +58,39 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-gray-50">
+      {/* Header personalizado */}
+      <View className="bg-blue-700 pt-14 pb-8 px-6 rounded-b-3xl">
+        <Text className="text-white text-3xl font-bold mb-2">
+          Hoy: {new Date().toLocaleDateString('es-ES', { 
+            day: 'numeric', 
+            month: 'long' 
+          })}
+        </Text>
+        <Text className="text-blue-200 text-base">
+          {completedCount} de {totalCount} completadas
+        </Text>
+      </View>
+
+      {/* Lista de tareas */}
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TaskCard task={item} onDelete={handleDelete} />
+          <TaskCard 
+            task={item} 
+            onToggleComplete={handleToggleComplete}
+            onEdit={() => router.push(`/tasks/${item.id}`)}
+          />
         )}
-        contentContainerStyle={{ padding: 16 }}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 100 }}
         ListEmptyComponent={
           <View className="items-center justify-center py-20">
-            <Text className="text-gray-400 text-6xl mb-4">📝</Text>
-            <Text className="text-gray-500 text-lg font-semibold">
-              No hay tareas
+            <Text className="text-gray-300 text-7xl mb-4">📝</Text>
+            <Text className="text-gray-500 text-xl font-semibold mb-2">
+              Sin tareas
             </Text>
-            <Text className="text-gray-400 text-sm mt-2">
-              Presiona + para crear una nueva tarea
+            <Text className="text-gray-400 text-sm">
+              Presiona + para agregar una nueva
             </Text>
           </View>
         }
@@ -91,21 +98,39 @@ export default function HomeScreen() {
           <RefreshControl 
             refreshing={loading} 
             onRefresh={handleRefresh}
-            colors={['#3B82F6']}
+            colors={['#2563EB']}
+            tintColor="#2563EB"
           />
         }
       />
 
-      <TouchableOpacity
-        className="absolute bottom-6 right-6 bg-blue-600 w-16 h-16 rounded-full items-center justify-center shadow-lg"
+      {/* Botón flotante para agregar */}
+      <Pressable
         onPress={() => router.push('/tasks/new')}
-        activeOpacity={0.8}
+        style={({ pressed }) => ({
+          position: 'absolute',
+          bottom: 24,
+          right: 24,
+          width: 64,
+          height: 64,
+          borderRadius: 32,
+          backgroundColor: '#2563EB',
+          justifyContent: 'center',
+          alignItems: 'center',
+          elevation: 8,
+          shadowColor: '#2563EB',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: pressed ? 0.5 : 0.3,
+          shadowRadius: 8,
+          opacity: pressed ? 0.9 : 1,
+        })}
       >
-        <Text className="text-white text-4xl font-light">+</Text>
-      </TouchableOpacity>
+        <Text style={{ color: 'white', fontSize: 36, fontWeight: '300' }}>+</Text>
+      </Pressable>
 
+      {/* Mensaje de error */}
       {error && (
-        <View className="bg-red-100 p-4 m-4 rounded-lg border border-red-300">
+        <View className="absolute bottom-24 left-4 right-4 bg-red-100 p-4 rounded-xl border border-red-300">
           <Text className="text-red-700 font-semibold">⚠️ Error</Text>
           <Text className="text-red-600 text-sm mt-1">{error}</Text>
         </View>

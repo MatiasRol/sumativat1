@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { CreateTaskDto } from '../lib/types/task';
 import { taskSchema } from '../lib/utils/validation';
 import { Button } from './ui/Button';
@@ -39,38 +39,36 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <View className="bg-white rounded-lg p-4 shadow-sm">
-      <Text className="text-2xl font-bold text-gray-800 mb-6">
-        {initialData ? 'Editar Tarea' : 'Nueva Tarea'}
-      </Text>
+    <ScrollView className="flex-1">
+      <View style={{ padding: 20 }}>
+        <Input
+          label="Título de la tarea"
+          value={title}
+          onChangeText={setTitle}
+          error={errors.title}
+          placeholder="Ej: Completar proyecto móvil"
+        />
+        
+        <Input
+          label="Descripción"
+          value={description}
+          onChangeText={setDescription}
+          error={errors.description}
+          placeholder="Agrega más detalles sobre la tarea..."
+          multiline
+          numberOfLines={4}
+        />
 
-      <Input
-        label="Título *"
-        value={title}
-        onChangeText={setTitle}
-        error={errors.title}
-        placeholder="Ej: Completar proyecto móvil"
-      />
-      
-      <Input
-        label="Descripción *"
-        value={description}
-        onChangeText={setDescription}
-        error={errors.description}
-        placeholder="Describe tu tarea en detalle..."
-        multiline
-        numberOfLines={5}
-      />
+        <Text style={{ fontSize: 12, color: '#9CA3AF', marginBottom: 20 }}>
+          * Solo caracteres alfanuméricos permitidos
+        </Text>
 
-      <Text className="text-xs text-gray-500 mb-4">
-        * Solo se permiten caracteres alfanuméricos
-      </Text>
-
-      <Button
-        title={initialData ? 'Actualizar Tarea' : 'Crear Tarea'}
-        onPress={handleSubmit}
-        loading={loading}
-      />
-    </View>
+        <Button
+          title={initialData ? 'Actualizar tarea' : 'Crear tarea'}
+          onPress={handleSubmit}
+          loading={loading}
+        />
+      </View>
+    </ScrollView>
   );
 };

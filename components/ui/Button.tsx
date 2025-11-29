@@ -19,21 +19,32 @@ export const Button: React.FC<ButtonProps> = ({
   const getVariantStyles = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-blue-600 active:bg-blue-700';
+        return { backgroundColor: '#2563EB' };
       case 'secondary':
-        return 'bg-gray-600 active:bg-gray-700';
+        return { backgroundColor: '#6B7280' };
       case 'danger':
-        return 'bg-red-600 active:bg-red-700';
+        return { backgroundColor: '#EF4444' };
       default:
-        return 'bg-blue-600 active:bg-blue-700';
+        return { backgroundColor: '#2563EB' };
     }
   };
 
   return (
     <TouchableOpacity
-      className={`${getVariantStyles()} rounded-lg py-4 px-6 shadow-sm ${
-        (disabled || loading) ? 'opacity-50' : ''
-      }`}
+      style={{
+        ...getVariantStyles(),
+        borderRadius: 12,
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        opacity: (disabled || loading) ? 0.6 : 1,
+      }}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
@@ -41,7 +52,11 @@ export const Button: React.FC<ButtonProps> = ({
       {loading ? (
         <ActivityIndicator color="white" />
       ) : (
-        <Text className="text-white font-bold text-center text-base">
+        <Text style={{
+          color: 'white',
+          fontSize: 16,
+          fontWeight: '600',
+        }}>
           {title}
         </Text>
       )}

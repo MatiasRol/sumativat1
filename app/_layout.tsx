@@ -6,35 +6,45 @@ import { store } from '../lib/store';
 export default function RootLayout() {
   return (
     <Provider store={store}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
-          headerStyle: {
-            backgroundColor: '#3B82F6',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          headerShown: false, // Ocultamos el header por defecto
         }}
       >
         <Stack.Screen 
           name="index" 
           options={{ 
-            title: 'Mis Tareas',
+            headerShown: false,
           }} 
         />
         <Stack.Screen 
           name="tasks/new" 
           options={{ 
-            title: 'Nueva Tarea',
+            headerShown: true,
+            title: 'Nueva tarea',
             presentation: 'modal',
+            headerStyle: {
+              backgroundColor: '#2563EB',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
           }} 
         />
         <Stack.Screen 
           name="tasks/[id]" 
           options={{ 
-            title: 'Editar Tarea',
+            headerShown: true,
+            title: 'Editar tarea',
+            headerStyle: {
+              backgroundColor: '#2563EB',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: '600',
+            },
           }} 
         />
       </Stack>

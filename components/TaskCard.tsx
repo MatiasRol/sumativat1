@@ -1,51 +1,98 @@
-import { router } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Task } from '../lib/types/task';
 
 interface TaskCardProps {
   task: Task;
-  onDelete: (id: string) => void;
+  onToggleComplete: (id: string, completed: boolean) => void;
+  onEdit: () => void;
 }
 
-export const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete }) => {
+export const TaskCard: React.FC<TaskCardProps> = ({ task, onToggleComplete, onEdit }) => {
   return (
-    <View className="bg-white rounded-lg p-4 mb-3 shadow-sm border border-gray-200">
-      {/* Área clickeable para editar */}
-      <Pressable onPress={() => router.push(`/tasks/${task.id}`)}>
-        <Text className="text-lg font-bold text-gray-800 mb-2" numberOfLines={1}>
-          {task.title}
-        </Text>
-        
-        <Text className="text-gray-600 mb-3 text-sm" numberOfLines={2}>
-          {task.description}
-        </Text>
-      </Pressable>
-      
-      {/* Footer con fecha y botón eliminar */}
-      <View className="flex-row justify-between items-center pt-2 border-t border-gray-100">
-        <Text className="text-xs text-gray-400">
-          📅 {new Date(task.createdAt).toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-          })}
-        </Text>
-        
-        {/* Botón eliminar independiente */}
+    <Pressable onPress={onEdit}>
+      <View 
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 16,
+          padding: 16,
+          marginBottom: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.05,
+          shadowRadius: 8,
+          elevation: 2,
+        }}
+      >
+        {/* Checkbox */}
         <Pressable
-          onPress={() => {
-            console.log('🔴 Botón ELIMINAR presionado - ID:', task.id);
-            onDelete(task.id.toString());
+          onPress={() => onToggleComplete(task.id.toString(), task.completed)}
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: 14,
+            borderWidth: 2,
+            borderColor: task.completed ? '#2563EB' : '#D1D5DB',
+            backgroundColor: task.completed ? '#2563EB' : 'transparent',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 12,
           }}
-          className="bg-red-500 px-4 py-2 rounded-md"
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.7 : 1,
-          })}
         >
-          <Text className="text-white text-xs font-semibold">🗑️ Eliminar</Text>
+          {task.completed && (
+            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>✓</Text>
+          )}
         </Pressable>
+
+        {/* Contenido de la tarea */}
+        <View style={{ flex: 1 }}>
+          <Text 
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: task.completed ? '#9CA3AF' : '#1F2937',
+              textDecorationLine: task.completed ? 'line-through' : 'none',
+              marginBottom: 4,
+            }}
+            numberOfLines={1}
+          >
+            {task.title}
+          </Text>
+          
+          {task.description && (
+            <Text 
+              style={{
+                fontSize: 14,
+                color: task.completed ? '#D1D5DB' : '#6B7280',
+                marginBottom: 6,
+              }}
+              numberOfLines={1}
+            >
+              {task.description}
+            </Text>
+          )}
+
+          <Text style={{ fontSize: 12, color: '#9CA3AF' }}>
+            {new Date(task.createdAt).toLocaleDateString('es-ES', {
+              day: 'numeric',
+              month: 'short',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+
+        {/* Indicador visual de tap para editar */}
+        <View style={{
+          width: 8,
+          height: 8,
+          borderRadius: 4,
+          backgroundColor: '#E5E7EB',
+          marginLeft: 8,
+        }} />
       </View>
-    </View>
+    </Pressable>
   );
 };
