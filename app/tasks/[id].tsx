@@ -1,10 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, ScrollView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { TaskForm } from '../../components/TaskForm';
 import { AppDispatch, RootState } from '../../lib/store';
-import { updateTask } from '../../lib/store/slices/tasksSlice';
+import { deleteTask, updateTask } from '../../lib/store/slices/tasksSlice';
 import { CreateTaskDto } from '../../lib/types/task';
 
 export default function EditTaskScreen() {
@@ -22,22 +22,25 @@ export default function EditTaskScreen() {
     try {
       setLoading(true);
       await dispatch(updateTask({ id, data })).unwrap();
-      
-      Alert.alert(
-        '✅ Éxito',
-        'Tarea actualizada correctamente',
-        [
-          {
-            text: 'OK',
-            onPress: () => router.back(),
-          },
-        ]
-      );
+      Alert.alert('✅ Éxito', 'Tarea actualizada correctamente');
+      router.back();
     } catch (error) {
-      Alert.alert(
-        '❌ Error',
-        'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.'
-      );
+      Alert.alert('❌ Error', 'No se pudo actualizar la tarea');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!id) return;
+    
+    try {
+      setLoading(true);
+      await dispatch(deleteTask(id)).unwrap();
+      Alert.alert('✅ Éxito', 'Tarea eliminada correctamente');
+      router.back();
+    } catch (error) {
+      Alert.alert('❌ Error', 'No se pudo eliminar la tarea');
     } finally {
       setLoading(false);
     }
@@ -60,6 +63,15 @@ export default function EditTaskScreen() {
           initialData={{ title: task.title, description: task.description }}
           loading={loading}
         />
+        
+        {/* BOTÓN ELIMINAR AQUÍ */}
+        <View style={{ marginTop: 20 }}>
+          <Button
+            title="🗑️ ELIMINAR ESTA TAREA"
+            onPress={handleDelete}
+            color="#ef4444"
+          />
+        </View>
       </View>
     </ScrollView>
   );

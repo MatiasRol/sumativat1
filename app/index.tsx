@@ -23,22 +23,37 @@ export default function HomeScreen() {
   }, []);
 
   const handleDelete = (id: string) => {
+    console.log('🗑️ PASO 1: handleDelete llamado con ID:', id);
+    
     Alert.alert(
       'Eliminar Tarea',
       '¿Estás seguro de que deseas eliminar esta tarea?',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { 
+          text: 'Cancelar', 
+          style: 'cancel',
+          onPress: () => console.log('❌ Eliminación cancelada')
+        },
         {
           text: 'Eliminar',
           style: 'destructive',
-          onPress: () => {
-            dispatch(deleteTask(id));
+          onPress: async () => {
+            console.log('🗑️ PASO 2: Confirmación aceptada');
+            try {
+              console.log('🗑️ PASO 3: Despachando deleteTask...');
+              await dispatch(deleteTask(id)).unwrap();
+              console.log('✅ PASO 4: Tarea eliminada exitosamente');
+              Alert.alert('✅ Éxito', 'Tarea eliminada correctamente');
+            } catch (error: any) {
+              console.error('❌ PASO 4: Error al eliminar:', error);
+              Alert.alert('❌ Error', 'No se pudo eliminar la tarea');
+            }
           },
         },
       ]
     );
   };
-
+  
   const handleRefresh = () => {
     dispatch(fetchTasks());
   };
@@ -56,7 +71,7 @@ export default function HomeScreen() {
     <View className="flex-1 bg-gray-50">
       <FlatList
         data={tasks}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TaskCard task={item} onDelete={handleDelete} />
         )}
@@ -83,7 +98,7 @@ export default function HomeScreen() {
 
       <TouchableOpacity
         className="absolute bottom-6 right-6 bg-blue-600 w-16 h-16 rounded-full items-center justify-center shadow-lg"
-        onPress={() => router.push('../tasks/new')}
+        onPress={() => router.push('/tasks/new')}
         activeOpacity={0.8}
       >
         <Text className="text-white text-4xl font-light">+</Text>

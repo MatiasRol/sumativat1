@@ -64,7 +64,6 @@ export const taskService = {
   createTask: async (task: CreateTaskDto): Promise<Task> => {
     try {
       const newTask = {
-        id: Date.now().toString(),
         ...task,
         completed: false,
         createdAt: new Date().toISOString(),
@@ -78,7 +77,7 @@ export const taskService = {
     }
   },
 
-  // PUT - Actualizar tarea
+  // PATCH - Actualizar tarea (cambio de PUT a PATCH)
   updateTask: async (id: string, task: UpdateTaskDto): Promise<Task> => {
     try {
       const response = await api.patch<Task>(`/tasks/${id}`, task);
@@ -89,13 +88,18 @@ export const taskService = {
     }
   },
 
-  // DELETE - Eliminar tarea
   deleteTask: async (id: string): Promise<void> => {
     try {
-      await api.delete(`/tasks/${id}`);
-      console.log(`✅ Task ${id} deleted successfully`);
-    } catch (error) {
-      console.error(`Error deleting task ${id}:`, error);
+      console.log('🔥 API Service: Eliminando tarea con ID:', id);
+      const response = await api.delete(`/tasks/${id}`);
+      console.log('✅ API Service: Respuesta DELETE:', response.status);
+    } catch (error: any) {
+      console.error(`❌ API Service: Error al eliminar tarea ${id}:`, error);
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
       throw error;
     }
   },
