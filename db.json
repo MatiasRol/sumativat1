@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Estudiar React Native",
+      "description": "Repasar componentes funcionales y hooks",
+      "completed": false,
+      "createdAt": "2025-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Completar proyecto móvil",
+      "description": "Terminar aplicación de gestión de tareas",
+      "completed": false,
+      "createdAt": "2025-01-15T11:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Preparar presentación",
+      "description": "Crear slides para la defensa del proyecto",
+      "completed": false,
+      "createdAt": "2025-01-15T14:00:00.000Z"
+    },
+    {
+      "id": "1764428421860",
+      "title": "frfsrf",
+      "description": "sgg",
+      "completed": false,
+      "createdAt": "2025-11-29T15:00:21.860Z"
+    }
+  ]
+}
