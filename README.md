@@ -56,51 +56,50 @@ npx expo start
 
 ## 🗂️ Estructura del Proyecto
 
+```
 task-manager-app/
 │
-├── app/                          # Pantallas y navegación (Expo Router)
-│   ├── _layout.tsx               # Layout principal + Redux Provider
-│   ├── index.tsx                 # 🏠 Lista de tareas (pantalla principal)
+├── app/
+│   ├── _layout.tsx
+│   ├── index.tsx
 │   └── tasks/
-│       ├── new.tsx               # ➕ Crear nueva tarea
-│       └── [id].tsx              # ✏️ Editar/Eliminar tarea (ruta dinámica)
+│       ├── new.tsx
+│       └── [id].tsx
 │
-├── components/                   # Componentes reutilizables
-│   ├── TaskCard.tsx              # Tarjeta de tarea con checkbox
-│   ├── TaskForm.tsx              # Formulario con validación
+├── components/
+│   ├── TaskCard.tsx
+│   ├── TaskForm.tsx
 │   └── ui/
-│       ├── Input.tsx             # Input personalizado
-│       └── Button.tsx            # Botón personalizado
+│       ├── Input.tsx
+│       └── Button.tsx
 │
-├── lib/                          # Lógica de negocio
-│   ├── store/                    # Redux Store
-│   │   ├── index.ts              # Configuración del store
+├── lib/
+│   ├── store/
+│   │   ├── index.ts
 │   │   └── slices/
-│   │       └── tasksSlice.ts     # Slice de tareas + thunks asíncronos
-│   │
+│   │       └── tasksSlice.ts
 │   ├── services/
-│   │   └── api.ts                # Axios + servicios de API REST
-│   │
+│   │   └── api.ts
 │   ├── types/
-│   │   └── task.ts               # Tipos TypeScript (Task, DTOs)
-│   │
+│   │   └── task.ts
 │   └── utils/
-│       └── validation.ts         # Esquemas de validación Zod
+│       └── validation.ts
 │
-├── assets/                       # Recursos (imágenes, iconos)
-├── .expo/                        # Caché de Expo (ignorado)
-├── node_modules/                 # Dependencias (ignorado)
+├── assets/
+├── .expo/
+├── node_modules/
 │
-├── .gitignore                    # Archivos ignorados por Git
-├── app.json                      # Configuración de Expo
-├── babel.config.js               # Configuración de Babel (NativeWind)
-├── db.json                       # Base de datos JSON Server
-├── metro.config.js               # Configuración de Metro bundler
-├── package.json                  # Dependencias y scripts
-├── tailwind.config.js            # Configuración de Tailwind CSS
-├── tsconfig.json                 # Configuración de TypeScript
-├── demo.gif                      # Demo de la aplicación
-└── README.md                     # Este archivo
+├── .gitignore
+├── app.json
+├── babel.config.js
+├── db.json
+├── metro.config.js
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+├── demo.gif
+└── README.md
+```
 
 🔌 Configuración de API
 
