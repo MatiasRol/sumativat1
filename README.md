@@ -1,89 +1,73 @@
-# 📱 Task Manager App - Evaluación Sumativa
+📱 Task Manager App - Evaluación Sumativa
+Aplicación móvil moderna de gestión de tareas desarrollada con React Native + Expo para la asignatura de Programación Móvil.
 
-Aplicación móvil de gestión de tareas desarrollada con React Native + Expo para la asignatura de Programación Móvil.
+<img width="290" height="642" alt="image" src="https://github.com/user-attachments/assets/64e27dc7-aaa6-4f1c-8d96-b27d50cd07f7" />
 
-## 👨‍🎓 Información del Estudiante
 
-- **Nombre:** Matias Roldan
-- **Nivel:** Bachillerato
-- **Asignatura:** Programación Móvil
-- **Curso:** Tercero
-- **Paralelo:** E2
-- **Año Lectivo:** 2025-2026
-- **Docente:** Milton Velásquez
+👨‍🎓 Información del Estudiante
 
-## 🎯 Objetivos del Proyecto
+Nomre: Matias Roldan
+Asignatura: Programación Móvil
+Curso: Tercero
+Paralelo:E2
+Año Lectivo: 2025-2026
+Docente: Milton Velásquez
+Institución: Unidad Educativa Técnico Salesiano
 
-✅ **Funcionalidad Completa:**
-- Permitir al usuario añadir, ver, editar y eliminar tareas mediante formularios
-- Sincronizar las tareas con una API REST (GET, POST, PUT, DELETE)
-- Validación de formularios con caracteres alfanuméricos únicamente
-  
-✅ **Navegación:**
-- Utilizar Expo Router para manejar múltiples pantallas
-- Implementar rutas dinámicas con parámetros
-- Estructura basada en archivos (file-based routing)
+🛠️ Tecnologías Utilizadas
+TecnologíaVersiónPropósitoReact Native0.76.0Framework móvil multiplataformaExpo SDK~52.0.0Herramientas y servicios de desarrolloTypeScript~5.3.3Tipado estático y seguridad de tiposRedux Toolkit^2.0.1Gestión de estado globalAxios^1.6.5Cliente HTTP para consumo de APIExpo Router~4.0.0Navegación file-based routingNativeWind^2.0.11Estilos con Tailwind CSSZod^3.22.4Validación de esquemas de datosJSON Server^1.0.0API REST simulada para desarrollo
 
-✅ **TypeScript:**
-- Implementar tipado en componentes y datos
-- Garantizar type-safety en toda la aplicación
+📦 Instalación
+Prerrequisitos
 
-✅ **Arquitectura:**
-- Estructura modular y escalable
-- Carpetas organizadas: app/, lib/, components/
+Node.js 18 o superior
+npm o yarn
+Expo Go app en tu dispositivo móvil (iOS/Android)
+Git
 
-## 🛠️ Tecnologías Utilizadas
-
-| Tecnología | Propósito |
-|------------|-----------|
-| **React Native** | Framework móvil multiplataforma |
-| **Expo SDK 52** | Herramientas y servicios |
-| **TypeScript** | Tipado estático |
-| **Redux Toolkit** | Gestión de estado global |
-| **Axios** | Cliente HTTP para API |
-| **Expo Router** | Navegación file-based |
-| **NativeWind** | Estilos con Tailwind CSS |
-| **Zod** | Validación de esquemas |
-
-## 📦 Instalación
-
-### Prerrequisitos
-- Node.js 18+
-- npm o yarn
-- Expo Go (en tu dispositivo móvil)
-
-### Pasos de Instalación
-```bash
-# 1. Clonar el repositorio
-git clone 
+Pasos de Instalación
+bash# 1. Clonar el repositorio
+git clone https://github.com/TU_USUARIO/task-manager-app.git
 cd task-manager-app
 
 # 2. Instalar dependencias
 npm install
 
-# 3. Iniciar el servidor de desarrollo
+# 3. Crear base de datos local (opcional)
+cat > db.json << 'EOF'
+{
+  "tasks": []
+}
+EOF
+
+# 4. Iniciar JSON Server (Terminal 1)
+npm run server
+
+# 5. Iniciar Expo (Terminal 2)
 npx expo start
 ```
 
 ### Opciones de Ejecución
 
 - **📱 Android:** Presiona `a` o escanea el QR con Expo Go
-- **🍎 iOS:** Presiona `i` o escanea el QR con Expo Go
+- **🍎 iOS:** Presiona `i` o escanea el QR con Expo Go (Camera app)
 - **🌐 Web:** Presiona `w` para abrir en navegador
+
+---
 
 ## 🗂️ Estructura del Proyecto
 ```
 task-manager-app/
 │
-├── app/                          # Pantallas (Expo Router)
+├── app/                          # Pantallas y navegación (Expo Router)
 │   ├── _layout.tsx               # Layout principal + Redux Provider
-│   ├── index.tsx                 # 🏠 Lista de tareas
+│   ├── index.tsx                 # 🏠 Lista de tareas (pantalla principal)
 │   └── tasks/
 │       ├── new.tsx               # ➕ Crear nueva tarea
-│       └── [id].tsx              # ✏️ Editar tarea (ruta dinámica)
+│       └── [id].tsx              # ✏️ Editar/Eliminar tarea (ruta dinámica)
 │
 ├── components/                   # Componentes reutilizables
-│   ├── TaskCard.tsx              # Tarjeta de tarea
+│   ├── TaskCard.tsx              # Tarjeta de tarea con checkbox
 │   ├── TaskForm.tsx              # Formulario con validación
 │   └── ui/
 │       ├── Input.tsx             # Input personalizado
@@ -93,91 +77,94 @@ task-manager-app/
 │   ├── store/                    # Redux Store
 │   │   ├── index.ts              # Configuración del store
 │   │   └── slices/
-│   │       └── tasksSlice.ts     # Slice de tareas + thunks
+│   │       └── tasksSlice.ts     # Slice de tareas + thunks asíncronos
 │   │
 │   ├── services/
-│   │   └── api.ts                # Axios + servicios API
+│   │   └── api.ts                # Axios + servicios de API REST
 │   │
 │   ├── types/
-│   │   └── task.ts               # Tipos TypeScript
+│   │   └── task.ts               # Tipos TypeScript (Task, DTOs)
 │   │
 │   └── utils/
-│       └── validation.ts         # Esquemas Zod
+│       └── validation.ts         # Esquemas de validación Zod
 │
 ├── assets/                       # Recursos (imágenes, iconos)
-├── .gitignore
-├── app.json                      # Configuración Expo
-├── babel.config.js               # Configuración Babel
-├── package.json
-├── db.json                       # Configuracion server
-├── tailwind.config.js            # Configuración Tailwind
-├── tsconfig.json                 # Configuración TypeScript
-└── README.md
-```
+├── .expo/                        # Caché de Expo (ignorado)
+├── node_modules/                 # Dependencias (ignorado)
+│
+├── .gitignore                    # Archivos ignorados por Git
+├── app.json                      # Configuración de Expo
+├── babel.config.js               # Configuración de Babel (NativeWind)
+├── db.json                       # Base de datos JSON Server
+├── metro.config.js               # Configuración de Metro bundler
+├── package.json                  # Dependencias y scripts
+├── tailwind.config.js            # Configuración de Tailwind CSS
+├── tsconfig.json                 # Configuración de TypeScript
+├── demo.gif                      # Demo de la aplicación
+└── README.md                     # Este archivo
 
-## 🔌 Configuración de API
-### JSON Server Local
+🔌 Configuración de API
 
-Para usar tu propia base de datos local:
-```bash
-# 1. Instalar json-server
-npm install -g json-server
+JSON Server Local (Desarrollo)
+Servidor local con persistencia real de datos.
+Configuración:
+bash# 1. El proyecto ya incluye json-server en package.json
 
-# 2. Crear archivo db.json
-echo '{
-  "tasks": [
-    {
-      "id": "1",
-      "title": "Tarea de ejemplo",
-      "description": "Esta es una tarea de prueba",
-      "completed": false,
-      "createdAt": "2025-01-15T10:00:00.000Z"
-    }
-  ]
-}' > db.json
-
-# 3. Iniciar servidor (desde la raíz del proyecto)
-json-server --watch db.json --port 3000 --host 0.0.0.0
-
-# 4. Obtener tu IP local
-# Windows: ipconfig
-# Mac/Linux: ifconfig
-```
-```typescript
-// Actualizar lib/services/api.ts
-const API_BASE_URL = 'http://TU_IP_LOCAL:3000';
-// Ejemplo: 'http://192.168.1.100:3000'
-```
-
-## ✨ Funcionalidades Implementadas
-
-### 1️⃣ CRUD Completo
-
-| Operación | Método HTTP | Endpoint | Descripción |
-|-----------|-------------|----------|-------------|
-| **Create** | POST | `/tasks` o `/todos` | Crear nueva tarea |
-| **Read** | GET | `/tasks` o `/todos` | Listar todas las tareas |
-| **Read One** | GET | `/tasks/:id` | Obtener tarea específica |
-| **Update** | PUT | `/tasks/:id` | Actualizar tarea |
-| **Delete** | DELETE | `/tasks/:id` | Eliminar tarea |
-
-### 2️⃣ Validaciones (Zod)
-
-- ✅ Campos obligatorios (título y descripción)
-- ✅ Solo caracteres alfanuméricos (sin símbolos especiales)
-- ✅ Longitud máxima: título 100 chars, descripción 500 chars
-- ✅ Mensajes de error en español
-- ✅ Validación en tiempo real
-
-### 3️⃣ Estado Global (Redux)
-```typescript
-// Estado de la aplicación
+# 2. Crear/verificar db.json en la raíz
 {
-  tasks: Task[],      // Array de tareas
-  loading: boolean,   // Estado de carga
-  error: string | null // Mensajes de error
+  "tasks": []
 }
-```
+
+# 3. Iniciar servidor (Terminal 1)
+npm run server
+Configurar URL en la app:
+Para desarrollo local (web):
+typescriptconst API_BASE_URL = 'http://localhost:3000';
+Para emulador Android:
+typescriptconst API_BASE_URL = 'http://10.0.2.2:3000';
+Para dispositivo físico (móvil real):
+bash# Obtener tu IP local
+hostname -I | awk '{print $1}'
+# Ejemplo: 192.168.1.100
+typescriptconst API_BASE_URL = 'http://192.168.1.100:3000';
+Opción 3: Google Cloud Workstations
+Si estás usando Cloud Workstations, usa tu URL específica:
+typescriptconst API_BASE_URL = 'https://3000-tu-proyecto.cloudworkstations.dev';
+
+✨ Funcionalidades Implementadas
+1️⃣ CRUD Completo
+OperaciónMétodo HTTPEndpointDescripciónCreatePOST/tasksCrear nueva tareaReadGET/tasksListar todas las tareasRead OneGET/tasks/:idObtener tarea específicaUpdatePATCH/tasks/:idActualizar tareaDeleteDELETE/tasks/:idEliminar tarea
+2️⃣ Validaciones (Zod)
+
+✅ Campos obligatorios (título y descripción)
+✅ Solo caracteres alfanuméricos (incluye acentos y ñ)
+✅ Longitud mínima: 1 carácter
+✅ Longitud máxima: título 100 chars, descripción 500 chars
+✅ Mensajes de error en español
+✅ Validación en tiempo real
+
+Esquema de validación:
+typescriptconst alphanumericRegex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ]+$/;
+
+export const taskSchema = z.object({
+  title: z
+    .string()
+    .min(1, 'El título es requerido')
+    .max(100, 'El título no puede exceder 100 caracteres')
+    .regex(alphanumericRegex, 'Solo se permiten caracteres alfanuméricos'),
+  description: z
+    .string()
+    .min(1, 'La descripción es requerida')
+    .max(500, 'La descripción no puede exceder 500 caracteres')
+    .regex(alphanumericRegex, 'Solo se permiten caracteres alfanuméricos'),
+});
+3️⃣ Estado Global (Redux)
+Estructura del estado:
+typescriptinterface TasksState {
+  tasks: Task[];      // Array de tareas
+  loading: boolean;   // Estado de carga
+  error: string | null; // Mensajes de error
+}
 
 **Thunks Asíncronos:**
 - `fetchTasks()` - Obtener todas las tareas
@@ -185,109 +172,100 @@ const API_BASE_URL = 'http://TU_IP_LOCAL:3000';
 - `updateTask(id, data)` - Actualizar tarea
 - `deleteTask(id)` - Eliminar tarea
 
+**Flujo de datos:**
+```
+Componente → Dispatch Action → Thunk → API Call → Redux State → Componente
+```
+
 ### 4️⃣ Navegación con Expo Router
 
-**Rutas:**
-- `/` - Lista de tareas
-- `/tasks/new` - Crear tarea (modal)
-- `/tasks/[id]` - Editar tarea (ruta dinámica)
-
-**Paso de Parámetros:**
-```typescript
-// Navegar con parámetros
+**Rutas implementadas:**
+```
+/                    → Lista de tareas (index.tsx)
+/tasks/new           → Crear tarea (modal)
+/tasks/[id]          → Editar tarea (parámetro dinámico)
+Paso de parámetros:
+typescript// Navegar con parámetros
 router.push(`/tasks/${task.id}`);
 
 // Recibir parámetros
-const { id } = useLocalSearchParams();
+const { id } = useLocalSearchParams<{ id: string }>();
 ```
 
-### 5️⃣ Características Adicionales
+### 5️⃣ Características UI/UX
 
-- 🔄 **Pull to Refresh:** Desliza hacia abajo para recargar
-- 🎨 **UI/UX Moderna:** Diseño limpio con NativeWind
-- ⚡ **Feedback Instantáneo:** Loading states y alertas
-- 🗑️ **Confirmación de Eliminación:** Alerta antes de borrar
-- 📅 **Fecha de Creación:** Muestra cuándo se creó cada tarea
+#### Pantalla Principal:
+- ✅ **Header personalizado** con fecha actual y contador de progreso
+- ✅ **Checkbox interactivo** para marcar tareas como completadas
+- ✅ **Estado visual** de completado (texto tachado + color gris)
+- ✅ **Pull to refresh** - deslizar hacia abajo para recargar
+- ✅ **Tap en tarjeta** para editar tarea
+- ✅ **Botón flotante** para agregar nueva tarea
+- ✅ **SafeAreaView** para ajuste a diferentes pantallas
 
-## 🧪 Testing Manual
+#### Formularios:
+- ✅ **Validación en tiempo real** con mensajes de error
+- ✅ **Inputs con diseño moderno** (bordes redondeados, sombras)
+- ✅ **TextArea** para descripción larga
+- ✅ **Loading states** en botones
 
-### Flujo de Prueba Completo:
+#### Edición de Tareas:
+- ✅ **Pre-carga de datos** existentes
+- ✅ **Botón eliminar** con confirmación
+- ✅ **Navegación fluida** de regreso
 
-1. **Crear Tarea:**
-```
-   ✓ Presionar botón flotante "+"
-   ✓ Llenar título: "Estudiar React Native"
-   ✓ Llenar descripción: "Repasar componentes y hooks"
-   ✓ Presionar "Crear Tarea"
-   ✓ Verificar que aparece en la lista
-```
-
-2. **Validaciones:**
-```
-   ✗ Intentar enviar formulario vacío → Ver errores
-   ✗ Escribir caracteres especiales (@#$%) → Ver error
-   ✓ Escribir solo alfanuméricos → Aceptar
-```
-
-3. **Editar Tarea:**
-```
-   ✓ Tap en una tarjeta de tarea
-   ✓ Modificar título o descripción
-   ✓ Presionar "Actualizar Tarea"
-   ✓ Verificar cambios en la lista
-```
-
-4. **Eliminar Tarea:**
-```
-   ✓ Presionar botón "Eliminar" en tarjeta
-   ✓ Confirmar en alerta
-   ✓ Verificar que desapareció de la lista
-```
-
-5. **Pull to Refresh:**
-```
-   ✓ Deslizar hacia abajo en la lista
-   ✓ Ver indicador de carga
-   ✓ Verificar que se recargan las tareas
-```
-## 🐛 Solución de Problemas
-
-### Error: "Unable to resolve module"
-```bash
-# Limpiar caché
+🐛 Solución de Problemas
+Error: "Unable to resolve module"
+bashnpm install
 npx expo start -c
-```
+Error: "Network request failed"
+bash# Verificar que JSON Server esté corriendo
+npm run server
 
-### Error: "Network request failed"
-```bash
-# Verificar que json-server esté corriendo
-# Verificar la IP en lib/services/api.ts
-# Asegurarse de estar en la misma red WiFi
-```
-
-### Error: NativeWind no funciona
-```bash
-# Verificar babel.config.js
-# Reiniciar servidor con caché limpia
+# Verificar la URL en lib/services/api.ts
+# Si usas dispositivo físico, verifica la IP
+Error: NativeWind no aplica estilos
+bash# Verificar babel.config.js
+# Reiniciar con caché limpia
 npx expo start -c
-```
-
-### Error de TypeScript
-```bash
-# Verificar que tsconfig.json esté correcto
-# Reiniciar TypeScript server en VS Code
+Error de TypeScript
+bash# Reiniciar TypeScript server en VS Code
 # Cmd/Ctrl + Shift + P → "TypeScript: Restart TS Server"
-```
+El botón no responde
+bash# Limpiar caché completamente
+rm -rf .expo
+rm -rf node_modules/.cache
+npx expo start -c
+JSON Server no inicia
+bash# Verificar que db.json exista
+cat db.json
+
+# Verificar puerto 3000 disponible
+lsof -i :3000
+
+# Si está ocupado, matar proceso
+kill -9 $(lsof -t -i:3000)
+
+## 📚 Recursos y Referencias
+
+### Documentación Oficial:
+- [Expo Documentation](https://docs.expo.dev/)
+- [React Native](https://reactnative.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Expo Router](https://expo.github.io/router/docs/)
+- [NativeWind](https://www.nativewind.dev/)
+- [Zod](https://zod.dev/)
+- [JSON Server](https://github.com/typicode/json-server)
+
+### Tutoriales Útiles:
+- [Expo Router Tutorial](https://docs.expo.dev/router/introduction/)
+- [Redux Toolkit Quick Start](https://redux-toolkit.js.org/tutorials/quick-start)
+- [TypeScript with React Native](https://reactnative.dev/docs/typescript)
 
 ## 📞 Contacto y Soporte
 
+**Estudiante:** Matias Roldan  
 **Docente:** Milton Velásquez  
-**Institución:** Unidad Educativa Técnico Salesiano
-
-## 📄 Licencia
-
-Este proyecto es de uso educativo para la asignatura de Programación Móvil.
-
----
-
-**✨ Desarrollado con dedicación para la Evaluación Sumativa del Primer Trimestre ✨**
+**Institución:** Unidad Educativa Técnico Salesiano  
+**Correo:** roldanmatias441@gmail.com 
+**GitHub:** MatiasRol/ https://github.com/MatiasRol
