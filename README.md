@@ -1,8 +1,7 @@
 📱 Task Manager App - Evaluación Sumativa
 Aplicación móvil moderna de gestión de tareas desarrollada con React Native + Expo para la asignatura de Programación Móvil.
 
-<img width="290" height="642" alt="image" src="https://github.com/user-attachments/assets/64e27dc7-aaa6-4f1c-8d96-b27d50cd07f7" />
-
+https://github.com/user-attachments/assets/f09f42eb-20a6-4d6e-bbc4-946e03bc7288
 
 👨‍🎓 Información del Estudiante
 
@@ -45,7 +44,7 @@ npm run server
 
 # 5. Iniciar Expo (Terminal 2)
 npx expo start
-```
+
 
 ### Opciones de Ejecución
 
@@ -56,7 +55,7 @@ npx expo start
 ---
 
 ## 🗂️ Estructura del Proyecto
-```
+
 task-manager-app/
 │
 ├── app/                          # Pantallas y navegación (Expo Router)
@@ -180,7 +179,7 @@ Componente → Dispatch Action → Thunk → API Call → Redux State → Compon
 ### 4️⃣ Navegación con Expo Router
 
 **Rutas implementadas:**
-```
+
 /                    → Lista de tareas (index.tsx)
 /tasks/new           → Crear tarea (modal)
 /tasks/[id]          → Editar tarea (parámetro dinámico)
@@ -189,8 +188,7 @@ typescript// Navegar con parámetros
 router.push(`/tasks/${task.id}`);
 
 // Recibir parámetros
-const { id } = useLocalSearchParams<{ id: string }>();
-```
+const { id } = useLocalSearchParams<{ id: string }>();``
 
 ### 5️⃣ Características UI/UX
 
