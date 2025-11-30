@@ -5,6 +5,7 @@ import {
   FlatList,
   Pressable,
   RefreshControl,
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -49,24 +50,24 @@ export default function HomeScreen() {
 
   if (loading && tasks.length === 0) {
     return (
-      <SafeAreaView className="flex-1 justify-center items-center bg-gray-50">
+      <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#2563EB" />
-        <Text className="mt-4 text-gray-600">Cargando tareas...</Text>
+        <Text style={styles.loadingText}>Cargando tareas...</Text>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header personalizado */}
-      <View className="bg-blue-700 pt-4 pb-8 px-6 rounded-b-3xl">
-        <Text className="text-white text-3xl font-bold mb-2">
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>
           Hoy: {new Date().toLocaleDateString('es-ES', { 
             day: 'numeric', 
             month: 'long' 
           })}
         </Text>
-        <Text className="text-blue-200 text-base">
+        <Text style={styles.headerSubtitle}>
           {completedCount} de {totalCount} completadas
         </Text>
       </View>
@@ -82,14 +83,12 @@ export default function HomeScreen() {
             onEdit={() => router.push(`/tasks/${item.id}`)}
           />
         )}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 100 }}
+        contentContainerStyle={styles.listContent}
         ListEmptyComponent={
-          <View className="items-center justify-center py-20">
-            <Text className="text-gray-300 text-7xl mb-4">📝</Text>
-            <Text className="text-gray-500 text-xl font-semibold mb-2">
-              Sin tareas
-            </Text>
-            <Text className="text-gray-400 text-sm">
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyIcon}>📝</Text>
+            <Text style={styles.emptyTitle}>Sin tareas</Text>
+            <Text style={styles.emptySubtitle}>
               Presiona + para agregar una nueva
             </Text>
           </View>
@@ -104,37 +103,143 @@ export default function HomeScreen() {
         }
       />
 
-      {/* Botón flotante para agregar */}
-      <Pressable
-        onPress={() => router.push('/tasks/new')}
-        style={({ pressed }) => ({
-          position: 'absolute',
-          bottom: 24,
-          right: 24,
-          width: 64,
-          height: 64,
-          borderRadius: 32,
-          backgroundColor: '#2563EB',
-          justifyContent: 'center',
-          alignItems: 'center',
-          elevation: 8,
-          shadowColor: '#2563EB',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: pressed ? 0.5 : 0.3,
-          shadowRadius: 8,
-          opacity: pressed ? 0.9 : 1,
-        })}
-      >
-        <Text style={{ color: 'white', fontSize: 36, fontWeight: '300' }}>+</Text>
-      </Pressable>
+      {/* Botón flotante para agregar - CORREGIDO */}
+      <View style={styles.floatingButtonContainer}>
+  <Pressable
+    onPress={() => {
+      console.log('Botón presionado');
+      router.push('/tasks/new');
+    }}
+    style={({ pressed }) => [
+      styles.floatingButton,
+      { opacity: pressed ? 0.9 : 1 }
+    ]}
+  >
+    <Text style={styles.floatingButtonText}>+</Text>
+  </Pressable>
+</View>
 
       {/* Mensaje de error */}
       {error && (
-        <View className="absolute bottom-24 left-4 right-4 bg-red-100 p-4 rounded-xl border border-red-300">
-          <Text className="text-red-700 font-semibold">⚠️ Error</Text>
-          <Text className="text-red-600 text-sm mt-1">{error}</Text>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorTitle}>⚠️ Error</Text>
+          <Text style={styles.errorMessage}>{error}</Text>
         </View>
       )}
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#E5E7EB', // gris
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E5E7EB', // gris
+  },
+  loadingText: {
+    marginTop: 16,
+    color: '#6B7280',
+    fontSize: 16,
+  },
+  header: {
+    backgroundColor: '#1D4ED8',
+    paddingTop: 16,
+    paddingBottom: 32,
+    paddingHorizontal: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  headerTitle: {
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  headerSubtitle: {
+    color: '#BFDBFE',
+    fontSize: 16,
+  },
+  listContent: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 100,
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 80,
+  },
+  emptyIcon: {
+    fontSize: 72,
+    color: '#D1D5DB',
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#6B7280',
+    marginBottom: 8,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: '#9CA3AF',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#2563EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#2563EB',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  floatingButtonPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.95 }],
+  },
+  floatingButtonText: {
+    color: '#FFFFFF',
+    fontSize: 36,
+    fontWeight: '300',
+    lineHeight: 42,
+  },
+  errorContainer: {
+    position: 'absolute',
+    bottom: 96,
+    left: 16,
+    right: 16,
+    backgroundColor: '#FEE2E2',
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#FCA5A5',
+  },
+  errorTitle: {
+    color: '#991B1B',
+    fontWeight: '600',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  errorMessage: {
+    color: '#DC2626',
+    fontSize: 12,
+  },
+  floatingButtonContainer: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    zIndex: 999,
+  },
+});
