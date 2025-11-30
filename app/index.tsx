@@ -1,18 +1,18 @@
+import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
   ActivityIndicator,
-  RefreshControl,
+  FlatList,
   Pressable,
+  RefreshControl,
+  Text,
+  View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { router } from 'expo-router';
+import { TaskCard } from '../components/TaskCard';
 import { AppDispatch, RootState } from '../lib/store';
 import { fetchTasks, updateTask } from '../lib/store/slices/tasksSlice';
-import { TaskCard } from '../components/TaskCard';
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -49,17 +49,17 @@ export default function HomeScreen() {
 
   if (loading && tasks.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center bg-gray-50">
+      <SafeAreaView className="flex-1 justify-center items-center bg-gray-50">
         <ActivityIndicator size="large" color="#2563EB" />
         <Text className="mt-4 text-gray-600">Cargando tareas...</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50" edges={['top']}>
       {/* Header personalizado */}
-      <View className="bg-blue-700 pt-14 pb-8 px-6 rounded-b-3xl">
+      <View className="bg-blue-700 pt-4 pb-8 px-6 rounded-b-3xl">
         <Text className="text-white text-3xl font-bold mb-2">
           Hoy: {new Date().toLocaleDateString('es-ES', { 
             day: 'numeric', 
@@ -135,6 +135,6 @@ export default function HomeScreen() {
           <Text className="text-red-600 text-sm mt-1">{error}</Text>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
